@@ -17,7 +17,7 @@ const levelNames=[
     "Dificil",
     "Muy dificil"
 ];
-const duration = 20;
+const duration = 60;
 let  timeOut;
 let count;
 
@@ -138,9 +138,12 @@ async function startGame() {
 
 function gameCountDown() {
     count = duration;
+    const timerElement = document.querySelector(".timer > p");
+    timerElement.textContent = count.toString() + "s";
     const countDownInterval = setInterval(() => {
       count --;
-  
+      count >=10 ? timerElement.textContent = count.toString() + "s":
+                   timerElement.textContent = "0"+ count.toString()+ "s";
       if (count <= 0) {
         clearInterval(countDownInterval);
         timeOut = true;
