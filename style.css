@@ -88,6 +88,10 @@ main {
   background-color: aqua;
 }
 
+.timer, .score > p{
+  font-size: 2vw;
+}
+
 .level{
   display: flex;
   justify-content: center;
