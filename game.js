@@ -213,7 +213,7 @@ function drawScore(score){
 }
 
 function displayScore(score){
-    const scoreDiv = document.querySelector(".score > p");
-    scoreDiv.textContent = "Puntos: \n" + score.toString();
+    const scoreDiv = document.querySelector(".score > h1");
+    scoreDiv.textContent = score.toString();
 
 }

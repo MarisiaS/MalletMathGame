@@ -194,6 +194,18 @@ main {
   background-color: aquamarine;
 }
 
+.score > h1{
+  position: absolute; 
+  font-size: 5vw;
+  top: 30%;
+}
+
+.score > h3{
+  position: absolute;
+  font-size: 1.5vw;
+  top: 25%; 
+}
+
 
 
 
