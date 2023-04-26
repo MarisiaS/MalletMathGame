@@ -3,7 +3,6 @@
   }
 
 body {
-  border: 1px solid red;
   max-width: 800px;
   width: 50vw;
   aspect-ratio: 1/1;
@@ -16,7 +15,6 @@ body {
 }
 
 header {
-  border: 1px solid blue;
   width: 100%;
   height: 15%;
   display: flex;
@@ -27,9 +25,18 @@ header {
 }
 
 main {
-  border: 1px solid green;
   width: 100%;
   height: 85%;
+  text-align: center;
+  border-radius: 10px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
   text-align: center;
   border-radius: 10px 10px 10px 10px;
   display: flex;
@@ -89,7 +96,7 @@ main {
 }
 
 .timer, .score > p{
-  font-size: 2vw;
+  font-size: 4vw;
 }
 
 .level{
@@ -180,6 +187,11 @@ main {
     #bce1f7 10%, 
     #20a8f7 10%,
     #20a8f7 100%);
+}
+
+/* start button style */
+.start{
+  background-color: aquamarine;
 }
 
 
