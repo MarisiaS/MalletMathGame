@@ -1,0 +1,32 @@
+Initial state:
+
+    -start button on blocks div
+    -once the start button is clicked change blocks to display a count down
+    -start game:
+        set the timer to 60 seconds
+        puntuation = 0
+        initial level: muy facil
+        
+        while game not ended
+            select level
+            display blocks and target
+            while level not finished
+                once the player clicks on a block:
+                check if it is correct
+                yes: 
+                    drop the blocks
+                    check if the level ended
+                        puntuation += level[score]
+                        if level is not max:
+                            level +=1
+                        end level
+                no:
+                    if level is not min:
+                        level -=1
+                    end level
+
+        when the time is up
+            end game
+            show puntuation                
+
+

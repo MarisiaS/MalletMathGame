@@ -1,0 +1,56 @@
+* {
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+
+.blocks{
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: lightcyan;
+    border-radius: 10px;
+    margin: 10rem 10rem;
+    display: flex;
+    justify-content: center;
+}
+
+.countDown{
+    align-items: center;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    width: 200px;
+    background: transparent;
+    color: #333;
+    font-size: 40px;
+}
+
+
+.level{
+    width: 10%;
+    height: 20px;
+    position: relative;
+    bottom: -10px;
+    background-color: orange;
+    border-radius: 5px;
+}
+
+
+
+.rosa, .azul{
+    width: 35%;
+    height: 50px;
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    border-radius: 5px;
+}
+
+.azul{
+    background-color: rgba(0, 0, 255, 0.356);
+}
