@@ -14,21 +14,16 @@ const levelNames=[
     "Muy fácil",
     "Fácil",
     "Medio",
-    "Dificil",
-    "Muy dificil"
+    "Difícil",
+    "Muy difícil"
 ];
-const duration = 60;
+const duration = 3;
 let  timeOut;
 let count;
 
 function initialScreen(){
-    displayGameElements(false);
-    const container = document.querySelector(".container");
-    const startButton = document.createElement("button");
-    startButton.classList.add("start");
-    startButton.textContent="Iniciar juego";
+    const startButton = document.querySelector(".start");
     startButton.addEventListener("click", startCountDown);
-    container.appendChild(startButton);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,40 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Once the button is clicked display countdown
 function startCountDown() {
-    const container = document.querySelector(".container");
+    const frontDiv = document.querySelector(".front");
     const startButton = document.querySelector(".start");
     startButton.style.display = "none"; // hide the start button
   
     let count = 3;
     const countDownElement = document.createElement("div");
     countDownElement.classList.add("countDown");
-    container.appendChild(countDownElement);
+    frontDiv.appendChild(countDownElement);
   
     const countDownInterval = setInterval(() => {
-      countDownElement.textContent = count;
       count--;
   
       if (count < 0) {
         clearInterval(countDownInterval);
-
-        //show game element, hide start button and contdown
-        displayGameElements(true);
-        const blocksDiv = document.querySelector(".container");
-        startButton.style.display = "none"; // hide the start button
-        countDownElement.style.display = "none"; // hide the countdown
-
+        //show container div, hide front div
+        displayGameElements(1);
         //start the game
         startGame();
       }
     }, 1000);
-}
-
-function displayGameElements(show){
-    const container = document.querySelector(".container");
-    containerElements = container.getElementsByTagName("*")
-    for (const child of containerElements ){
-        show ? child.style.display = "flex": child.style.display = "none";
-    }    
 }
 
 async function startGame() {
@@ -107,6 +88,7 @@ async function startGame() {
                     score -= levelScoresPenalty[difficulty];
                     displayScore(score);
                     await new Promise(r => setTimeout(r, 500));
+                    restartGameElements();
                     if (difficulty > 0){
                         difficulty -= 1;
                     }
@@ -117,6 +99,7 @@ async function startGame() {
                 cleanBlocks();
                 drawPartialResult("pierdes");
                 await new Promise(r => setTimeout(r, 500));
+                restartGameElements();
                 levelEnded = true;
             }    
         }
@@ -126,6 +109,7 @@ async function startGame() {
             score += levelScores[difficulty];
             displayScore(score);
             await new Promise(r => setTimeout(r, 500));
+            restartGameElements();
             if (difficulty < 4){
                 difficulty += 1;
             }
@@ -133,7 +117,7 @@ async function startGame() {
         }
     }
 
-    drawScore(score.toString());
+    endGame(score);
 }
 
 function gameCountDown() {
@@ -156,6 +140,7 @@ function getRandomArbitrary(min, max) {
 }
 
 function drawBlocks(difficulty,level){
+
     //show target
     const targetDiv = document.querySelector(".target > h1:last-child");
     targetDiv.textContent = niveles[difficulty][level][0];
@@ -178,6 +163,28 @@ function drawBlocks(difficulty,level){
         } 
 }
 
+function displayGameElements(show){
+    //show has to be 0 or 1
+    const containerDiv = document.querySelector(".container");
+    const frontDiv = document.querySelector(".front");
+    let factorContainer = show*100;
+    let factorFront = (1 - show)*100;
+    containerDiv.style.width = factorContainer.toString() + "%";
+    containerDiv.style.height = factorContainer.toString() + "%";
+    factorContainer==100 ? containerDiv.style.display = "flex": containerDiv.style.display = "none";
+    frontDiv.style.width = factorFront.toString() + "%";
+    frontDiv.style.height = factorFront.toString() + "%";
+    factorFront==100 ? frontDiv.style.display = "flex": frontDiv.style.display = "none";
+}
+
+function displayElements(show,className){
+    const element = document.querySelector("."+className);
+    children = element.getElementsByTagName("*")
+    for (const child of children){
+        show ? child.style.display = "flex": child.style.display = "none";
+    }    
+}
+
 async function blockClicked() {
     return new Promise((resolve) => {
       document.querySelector('.blocks').addEventListener('click', (event) => {
@@ -191,9 +198,36 @@ async function blockClicked() {
 }
 
 function drawPartialResult(type){
-    const blocksDiv = document.querySelector(".blocks");
-    blocksDiv.textContent = type === "ganas" ? "Ganas" : "Pierdes";
-    blocksDiv.style.backgroundColor = type === "ganas" ? "GREEN" : "RED";
+    // draw result on level div
+    const resultDiv = document.querySelector(".result");
+    resultDiv.style.display = "flex";
+    resultDiv.textContent = type === "ganas" ? "Buen trabajo!" : "Oh no!";
+    resultDiv.style.backgroundColor = type === "ganas" ? "#50C878" : "	#d62929";
+    resultDiv.style.width = "50%";
+    resultDiv.style.height = "100%";
+
+    const levelDiv = document.querySelector(".level");
+    levelDiv.style.width = "0%";
+    levelDiv.style.height = "0%";
+    levelDiv.style.display = "none";
+
+    const difficultyDiv = document.querySelector(".difficulty");
+    difficultyDiv.style.display = "none";
+}
+
+function restartGameElements(){
+    const resultDiv = document.querySelector(".result");
+    resultDiv.style.width = "0%";
+    resultDiv.style.height = "0%";
+    resultDiv.style.display = "none";
+
+    const levelDiv = document.querySelector(".level");
+    levelDiv.style.display = "flex";
+    levelDiv.style.width = "50%";
+    levelDiv.style.height = "100%";
+
+    const difficultyDiv = document.querySelector(".difficulty");
+    difficultyDiv.style.display = "flex";
 }
 
 function cleanBlocks(){
@@ -209,14 +243,16 @@ function cleanBlocks(){
     gameElements.forEach((el) => el.remove());
 }
 
-function drawScore(score){
-    const blocksDiv = document.querySelector(".blocks");
-    blocksDiv.textContent = score;
-    blocksDiv.style.backgroundColor = "WHITE";
-}
-
 function displayScore(score){
     const scoreDiv = document.querySelector(".score > h1");
     scoreDiv.textContent = score.toString();
-
 }
+
+function endGame(score){
+    displayGameElements(0);
+    const frontDiv = document.querySelector(".front");
+    const startButton = document.querySelector(".start");
+    startButton.style.display = "block"; 
+}
+
+
