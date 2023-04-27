@@ -32,16 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Once the button is clicked display countdown
 function startCountDown() {
-    const frontDiv = document.querySelector(".front");
+    const textFronDiv = document.querySelector(".text");
     const startButton = document.querySelector(".start");
     startButton.style.display = "none"; // hide the start button
+    textFronDiv.innerHTML = "";
   
     let count = 3;
-    const countDownElement = document.createElement("div");
-    countDownElement.classList.add("countDown");
-    frontDiv.appendChild(countDownElement);
   
     const countDownInterval = setInterval(() => {
+      let textFronDiv = document.querySelector(".text");
+      textFronDiv.innerHTML = count;  
       count--;
   
       if (count < 0) {
@@ -86,6 +86,7 @@ async function startGame() {
                     cleanBlocks();
                     drawPartialResult("pierdes");
                     score -= levelScoresPenalty[difficulty];
+                    score = Math.max(0,score);
                     displayScore(score);
                     await new Promise(r => setTimeout(r, 500));
                     restartGameElements();
@@ -252,7 +253,11 @@ function endGame(score){
     displayGameElements(0);
     const frontDiv = document.querySelector(".front");
     const startButton = document.querySelector(".start");
-    startButton.style.display = "block"; 
+    startButton.style.display = "block";
+    startButton.innerHTML = "Jugar otra vez"; 
+    let textFronDiv = document.querySelector(".text");
+    textFronDiv.innerHTML = "Obtuviste " + score.toString() + " puntos";
+
 }
 
 
