@@ -17,7 +17,7 @@ const levelNames=[
     "Difícil",
     "Muy difícil"
 ];
-const duration = 3;
+const duration = 5;
 let  timeOut;
 let count;
 
@@ -32,20 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Once the button is clicked display countdown
 function startCountDown() {
-    const textFronDiv = document.querySelector(".text");
+    const instruccionsFronDiv = document.querySelector(".instruccions");
+    const countFronDiv = document.querySelector(".count");
+    const finalScoreFronDiv = document.querySelector(".finalScore");
     const startButton = document.querySelector(".start");
     startButton.style.display = "none"; // hide the start button
-    textFronDiv.innerHTML = "";
+    instruccionsFronDiv.innerHTML = "";
+    finalScoreFronDiv.innerHTML = "";
   
     let count = 3;
   
     const countDownInterval = setInterval(() => {
-      let textFronDiv = document.querySelector(".text");
-      textFronDiv.innerHTML = count;  
+      countFronDiv.innerHTML = count;  
       count--;
   
       if (count < 0) {
         clearInterval(countDownInterval);
+        countFronDiv.innerHTML = ""; 
         //show container div, hide front div
         displayGameElements(1);
         //start the game
@@ -68,13 +71,11 @@ async function startGame() {
         drawBlocks(difficulty,level);
         let numBlocksToEliminate = niveles[difficulty][level][2].length;
         let blocksToEliminate = niveles[difficulty][level][2]
-        console.log(blocksToEliminate);
         let levelEnded = false;
         while(numBlocksToEliminate > 0 && !levelEnded){
             clickedBlockIndex = blockClicked();
             const timeToEnd = new Promise(r => setTimeout(() => r(-2), count*1000));
             result = await Promise.race([clickedBlockIndex, timeToEnd]);
-            console.log(result, clickedBlockIndex);
             if (result > -1) {
                 const dataToRemove = niveles[difficulty][level][1][result];
                 if (blocksToEliminate.includes(dataToRemove)) {
@@ -203,7 +204,8 @@ function drawPartialResult(type){
     const resultDiv = document.querySelector(".result");
     resultDiv.style.display = "flex";
     resultDiv.textContent = type === "ganas" ? "Buen trabajo!" : "Oh no!";
-    resultDiv.style.backgroundColor = type === "ganas" ? "#50C878" : "	#d62929";
+    resultDiv.style.backgroundColor = type === "ganas" ? "var(--result-ganas)":
+                                                         "var(--result-pierdes)";
     resultDiv.style.width = "50%";
     resultDiv.style.height = "100%";
 
@@ -254,9 +256,8 @@ function endGame(score){
     const frontDiv = document.querySelector(".front");
     const startButton = document.querySelector(".start");
     startButton.style.display = "block";
-    startButton.innerHTML = "Jugar otra vez"; 
-    let textFronDiv = document.querySelector(".text");
-    textFronDiv.innerHTML = "Obtuviste " + score.toString() + " puntos";
+    let finalScoreFronDiv = document.querySelector(".finalScore");
+    finalScoreFronDiv.innerHTML = "Obtuviste " + score.toString() + " puntos";
 
 }
 

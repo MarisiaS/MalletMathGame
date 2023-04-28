@@ -1,5 +1,25 @@
+:root{
+    --background: #FFEFFF;
+    --text-color: black;
+    --front-background: #C19EC5;
+    --container-title: #C19EC5;
+    --container-game: #824C8B;
+    --container-extreme: #824C8B;
+    --container-level: #fae1e1;
+    --result-ganas: #b4ffd3;
+    --result-pierdes:#EA4F63;
+    --container-difficulty: #FF8999;
+    --container-target: #98DDEB;
+    --color1-shadow: #FF8999;
+    --color1-block: #F91052;
+    --color2-shadow: #98DDEB;
+    --color2-block: #2D74C5;
+    --start-button: #FFEFFF;
+}
+
 * {
-    box-sizing: border-box
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-color);
   }
 
 body {
@@ -12,6 +32,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--background);
 }
 
 header {
@@ -42,8 +63,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: bisque;
+  background-color: var(--front-background);
   font-size: 3vh;
+  position: relative;
 }
 
 .container {
@@ -56,14 +78,13 @@ main {
   align-items: center;
 }
 
-
 .title {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
   height: 20%;
-  background-color:#f8daec;
+  background-color: var(--container-title);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +95,7 @@ main {
 .game {
   width: 100%;
   height: 80%;
-  background-color: aliceblue;
+  background-color: var(--container-game);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -82,14 +103,13 @@ main {
   border-radius: 0px 0px 10px 10px;
 }
 
-
 .timer, .score{
   display: flex;
   justify-content: center;
   align-items: center;
   width: 25%;
   height: 100%;
-  background-color: aqua;
+  background-color: transparent;
 }
 
 .timer{
@@ -110,8 +130,8 @@ main {
   align-items: center;
   width: 0%;
   height: 0%;
-  background-color: lightblue;
   font-size: 5vh;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .level{
@@ -120,20 +140,21 @@ main {
   align-items: center;
   width: 50%;
   height: 100%;
-  background-color: lightblue;
+  background-color: var(--container-level);
   position: relative;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .difficulty{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15%;
+  width: 20%;
   height: 8%;
-  background-color: rgb(238, 179, 18);
+  background-color: var(--container-difficulty);
   position: absolute;
   top: -5%;
-  left: 45%;
+  left: 40%;
   z-index: 4;
   font-size: 1vw;
   border-radius: 5px 5px 5px 5px;
@@ -158,17 +179,18 @@ main {
   align-items: center;
   justify-content: center;
   width: 30%;
-  height: 30%;
-  background-color: rgb(238, 179, 18);
+  height: 25%;
+  background-color: var(--container-target);
   position: absolute;
   top: 10%;
   right: 5%;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .target > h1{
   position: absolute; 
   font-size: 5vw;
-  top: -20%;
+  top: -15%;
 }
 
 .target > h3{
@@ -190,23 +212,58 @@ main {
 
 .color1{
   background: repeating-linear-gradient(
-    #f7bcbc, 
-    #f7bcbc 10%, 
-    rgb(255, 136, 156) 10%,
-    rgb(255, 136, 156) 100%);
+    var(--color1-shadow), 
+    var(--color1-shadow) 10%, 
+    var(--color1-block) 10%,
+    var(--color1-block) 100%);
 }
 
 .color2{
   background: repeating-linear-gradient(
-    #bce1f7, 
-    #bce1f7 10%, 
-    #20a8f7 10%,
-    #20a8f7 100%);
+    var(--color2-shadow), 
+    var(--color2-shadow) 10%, 
+    var(--color2-block) 10%,
+    var(--color2-block) 100%);
 }
 
 /* start button style */
 .start{
-  background-color: aquamarine;
+  background-color: var(--start-button);
+  position: absolute;
+  top: 60%;
+  left: 40%;
+  width: 20%;
+  height: 8%;
+  border-radius: 10px;
+  font-size: 1.5vw;
+  font-weight: 550;
+}
+
+.instruccions{
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  right: 5%;
+  text-align: justify;
+  font-weight: 549;
+}
+
+.finalScore{
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  text-align: left;
+  font-size: 3vw;
+  font-weight: 600;
+}
+
+.count{
+  position: absolute;
+  top: 10%;
+  left: 45%;
+  text-align: center;
+  font-size: 8vw;
+  font-weight: 600;
 }
 
 .score > h1{
@@ -220,8 +277,3 @@ main {
   font-size: 1.5vw;
   top: 25%; 
 }
-
-
-
-
-
