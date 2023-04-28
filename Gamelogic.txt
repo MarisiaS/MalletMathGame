@@ -27,6 +27,12 @@ Initial state:
 
         when the time is up
             end game
-            show puntuation                
+            show puntuation  
+
+Objetivo del juego:
+
+Elimina bloques de forma que los que queden sumen la cantidad especificada en la pantalla.
+
+Como jugar:              
 
 
