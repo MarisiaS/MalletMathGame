@@ -16,7 +16,7 @@ const levelNames=[
     "Difícil",
     "Muy difícil"
 ];
-const duration = 15;
+const duration = 60;
 let  timeOut;
 let count;
 
