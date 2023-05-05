@@ -10,17 +10,40 @@ const minLevel = 0;
 const levelScores = [10, 30, 50, 100, 200];
 const levelScoresPenalty = [6, 14, 20, 25, 33];
 const levelNames=[
-    "Muy fácil",
+    ["Muy fácil",
     "Fácil",
     "Medio",
     "Difícil",
-    "Muy difícil"
+    "Muy difícil"],[
+    "Easy peasy",
+    "Easy",
+    "Medium",
+    "Hard",
+    "very hard"
+    ]
 ];
 const duration = 60;
 let  timeOut;
 let count;
 
 function initialScreen(){
+    let usrlang = navigator.language 
+            || navigator.userLanguage;
+    strings = document.querySelectorAll("span");
+    console.log(usrlang.slice(0,2));
+    if (usrlang.slice(0,2) =="en"){
+        console.log(strings);
+        strings.forEach((el) => 
+           (el.lang=="en")? el.style.display = "in-line":
+                            el.style.display = "none"
+        );
+    }
+    else{
+        strings.forEach((el) => 
+           (el.lang!="es")? el.style.display = "none":
+                            el.style.display = "in-line"
+        );
+    }
     const startButton = document.querySelector(".start");
     startButton.addEventListener("click", startCountDown);
 }
@@ -39,6 +62,11 @@ function startCountDown() {
     const maxLevel = document.querySelector('input[name="tipo"]:checked').value;
     instruccionsFronDiv.innerHTML = "";
     finalScoreFronDiv.innerHTML = "";
+
+    let usrlang = navigator.language 
+            || navigator.userLanguage;
+    
+    const language = usrlang.slice(0,2); 
   
     let count = 3;
   
@@ -52,12 +80,12 @@ function startCountDown() {
         //show container div, hide front div
         displayGameElements(1);
         //start the game
-        startGame(maxLevel);
+        startGame(maxLevel,language);
       }
     }, 1000);
 }
 
-async function startGame(maxLevel) {
+async function startGame(maxLevel,language) {
 
     let difficulty = minLevel;
     let score = 0;
@@ -68,7 +96,7 @@ async function startGame(maxLevel) {
         displayScore(score);
         const blocksDiv = document.querySelector(".blocks");
         let level = getRandomArbitrary(0,niveles[difficulty].length);
-        drawBlocks(difficulty,level);
+        drawBlocks(difficulty,level,language);
         let numBlocksToEliminate = niveles[difficulty][level][2].length;
         let blocksToEliminate = niveles[difficulty][level][2]
         let levelEnded = false;
@@ -85,7 +113,7 @@ async function startGame(maxLevel) {
                 }
                 else{
                     cleanBlocks();
-                    drawPartialResult("pierdes");
+                    drawPartialResult("pierdes",language);
                     score -= levelScoresPenalty[difficulty];
                     score = Math.max(0,score);
                     displayScore(score);
@@ -99,7 +127,7 @@ async function startGame(maxLevel) {
             }
             if (result == -2) {
                 cleanBlocks();
-                drawPartialResult("pierdes");
+                drawPartialResult("pierdes",language);
                 await new Promise(r => setTimeout(r, 500));
                 restartGameElements();
                 levelEnded = true;
@@ -107,7 +135,7 @@ async function startGame(maxLevel) {
         }
         if(numBlocksToEliminate==0){
             cleanBlocks();
-            drawPartialResult("ganas");
+            drawPartialResult("ganas",language);
             score += levelScores[difficulty];
             displayScore(score);
             await new Promise(r => setTimeout(r, 500));
@@ -119,7 +147,7 @@ async function startGame(maxLevel) {
         }
     }
 
-    endGame(score);
+    endGame(score,language);
 }
 
 function gameCountDown() {
@@ -141,7 +169,7 @@ function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function drawBlocks(difficulty,level){
+function drawBlocks(difficulty,level,language){
 
     //show target
     const targetDiv = document.querySelector(".target > h1:last-child");
@@ -149,7 +177,9 @@ function drawBlocks(difficulty,level){
 
     //show difficulty
     const difficultyDiv = document.querySelector(".difficulty");
-    difficultyDiv.textContent = levelNames[difficulty];
+    let languageNum;
+    language=='en'? languageNum = 1 : languageNum = 0;
+    difficultyDiv.textContent = levelNames[languageNum][difficulty];
 
     //show blocks
     const blocksDiv = document.querySelector(".blocks");
@@ -199,11 +229,17 @@ async function blockClicked() {
     });
 }
 
-function drawPartialResult(type){
+function drawPartialResult(type,language){
     // draw result on level div
     const resultDiv = document.querySelector(".result");
     resultDiv.style.display = "flex";
-    resultDiv.textContent = type === "ganas" ? "Buen trabajo!" : "Oh no!";
+    if (language !="en"){
+        resultDiv.textContent = type === "ganas" ? "Buen trabajo!" : "Oh no!";
+    }
+    else{
+        resultDiv.textContent = type === "ganas" ? "Good job!" : "Oh no!";  
+    }
+
     resultDiv.style.backgroundColor = type === "ganas" ? "var(--result-ganas)":
                                                          "var(--result-pierdes)";
     resultDiv.style.width = "50%";
@@ -251,7 +287,7 @@ function displayScore(score){
     scoreDiv.textContent = score.toString();
 }
 
-function endGame(score){
+function endGame(score,language){
     displayGameElements(0);
     const frontDiv = document.querySelector(".front");
     const gameLevelDiv = document.querySelector(".gameLevel");
@@ -259,7 +295,13 @@ function endGame(score){
     // const startButton = document.querySelector(".start");    
     // startButton.style.display = "block";
     let finalScoreFronDiv = document.querySelector(".finalScore");
-    finalScoreFronDiv.innerHTML = "Obtuviste " + score.toString() + " puntos";
+    if (language !="en"){
+        finalScoreFronDiv.innerHTML = "Obtuviste " + score.toString() + " puntos!";
+    }
+    else{
+        finalScoreFronDiv.innerHTML = "You got " + score.toString() + " points!";  
+    }
+    
 
 }
 
