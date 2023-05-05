@@ -19,7 +19,7 @@ const levelNames=[
     "Easy",
     "Medium",
     "Hard",
-    "very hard"
+    "Very hard"
     ]
 ];
 const duration = 60;
